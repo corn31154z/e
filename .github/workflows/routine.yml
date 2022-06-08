@@ -2,12 +2,12 @@ name: Invoke API
 
 on:
   schedule:
-    - cron: '32 */8 * * *'
+    - cron: '37 */8 * * *'
   workflow_dispatch:
 
 jobs:
   invoke:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -16,9 +16,9 @@ jobs:
           token: ${{ secrets.PAT }}
 
       - name: Setup python and poetry
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v3
         with:
-          python-version: 3.9
+          python-version: 3.x
       - uses: Gr1N/setup-poetry@v4
 
       - name: Pull upstream
@@ -27,7 +27,7 @@ jobs:
       - name: Install requirements
         run: poetry install
 
-      - name: Test Api
+      - name: Test The Api
         env:
           PASSWD: ${{ secrets.PASSWD }}
         run: bash wrapper.sh invoke
